@@ -100,11 +100,7 @@ subjects:
 kubectl apply -f permissive-rolebind.yaml
 ```
 
-#### Step 5 - Delete Cluster Level Role Binding:
-```sh
-kubectl delete clusterrolebinding permissive-psp-cluster-bind
-```
-#### Step 6 - Verification:
+#### Step 5 - Verification (Should Work):
 ```sh
 su - john
 ```
@@ -125,4 +121,39 @@ spec:
 ```
 ```sh
 kubectl apply -f privileged.yaml
+```
+
+
+
+#### Step 6 - Delete Cluster Level Role Binding:
+```sh
+kubectl delete clusterrolebinding permissive-psp-cluster-bind
+```
+#### Step 7 - Verification(Should Not work):
+```sh
+su - john
+```
+```sh
+nano privileged.yaml
+```
+```sh
+apiVersion: v1
+kind: Pod
+metadata:
+  name: privileged
+spec:
+  containers:
+  - image: nginx
+    name: demo-pod
+    securityContext:
+      privileged: true
+```
+```sh
+kubectl apply -f privileged.yaml
+```
+
+```
+john@kmaster1:~$ kubectl apply -f privileged.yaml
+Error from server (Forbidden): error when creating "privileged.yaml": pods "privileged" is forbidden: unable to validate against any pod security policy: [spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
+john@kmaster1:~$
 ```
