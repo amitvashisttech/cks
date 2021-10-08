@@ -3,9 +3,9 @@
 kubectl create ns external
 ```
 ```sh
-kubectl run pod-1 --image=praqma/network-multitool
-kubectl run pod-2 --image=praqma/network-multitool
-kubectl run pod-3 --image=praqma/network-multitool -n external
+kubectl run pod-1 --image=amitvashist7/network-multitool
+kubectl run pod-2 --image=amitvashist7/network-multitool
+kubectl run pod-3 --image=amitvashist7/network-multitool -n external
 ```
 ```sh
 kubectl get pods -o wide
